@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello World • Hyrax & Redfoot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+    
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    
+    body {
+      font-family: var(--font-sans);
+    }
+    
+    .brand-font {
+      font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+    }
+
+    .consul-card {
+      transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+                  box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+                  border-color 0.2s ease;
+    }
+    .consul-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+      border-color: #fcd34d;
+    }
+
+    .comment-card {
+      transition: all 0.15s ease;
+    }
+    .comment-card:hover {
+      border-color: #d1d5db;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+    }
+
+    .nav-link {
+      transition: color 0.1s ease;
+    }
+    .nav-link.active {
+      color: #b45309;
+      font-weight: 600;
+    }
+
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+
+    .email-modal {
+      animation: popIn 0.2s ease-out forwards;
+    }
+    
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .hello-btn {
+      transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    .hello-btn:hover {
+      transform: translateY(-1px);
+    }
+    .hello-btn:active {
+      transform: scale(0.985);
+    }
+
+    .stat {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-stone-900">
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur-lg">
+    <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div onclick="showPage('home')" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-2xl font-semibold brand-font tracking-tighter">Hello World</span>
+        <span class="text-3xl">🐢</span>
+      </div>
+
+      <div class="hidden md:flex items-center gap-x-2 text-sm">
+        <button onclick="showPage('home')" class="nav-link px-4 py-1.5 text-stone-600 hover:text-stone-900 font-medium" id="nav-home">Home</button>
+        <button onclick="showPage('about')" class="nav-link px-4 py-1.5 text-stone-600 hover:text-stone-900 font-medium" id="nav-about">About</button>
+        <button onclick="showPage('sign')" class="nav-link px-4 py-1.5 text-stone-600 hover:text-stone-900 font-medium" id="nav-sign">Sign the Book</button>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openEmailModal()" 
+                class="hidden md:flex items-center gap-2 px-4 py-1.5 text-sm font-semibold rounded-full bg-white/90 border border-stone-200 hover:border-amber-300 hover:shadow text-stone-800 transition-all">
+          <span>Send a Hello</span>
+          <span>✉️</span>
+        </button>
+        
+        <!-- Mobile nav -->
+        <div class="flex md:hidden gap-1 text-sm">
+          <button onclick="showPage('about')" class="px-3 py-1 rounded-lg text-stone-600 hover:bg-stone-100">About</button>
+          <button onclick="showPage('sign')" class="px-3 py-1 rounded-lg text-stone-600 hover:bg-stone-100">Sign</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HOME PAGE ==================== -->
+  <div id="page-home" class="section active">
+    <!-- Hero -->
+    <section class="border-b border-stone-200 bg-white">
+      <div class="max-w-5xl mx-auto px-6 pt-16 pb-12 text-center">
+        <div class="inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-1 text-sm font-semibold text-amber-700 mb-4">
+          Theme: Hello World
+        </div>
+        
+        <h1 class="text-7xl font-semibold tracking-tighter brand-font text-stone-900">Hello, World.</h1>
+        <p class="max-w-md mx-auto mt-4 text-xl text-stone-600">
+          A warm greeting from two official animal ambassadors.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center mt-8">
+          <button onclick="openEmailModal('Hello from the Hello World site! 🐢🪨')" 
+                  class="hello-btn inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-2xl shadow-md text-base">
+            Send a Hello to the Consuls ✉️
+          </button>
+          <button onclick="showPage('sign')" 
+                  class="hello-btn inline-flex items-center justify-center gap-2 px-7 py-3.5 border-2 border-stone-300 hover:border-stone-400 font-semibold rounded-2xl text-base">
+            Sign the Guestbook
+          </button>
+        </div>
+        <p class="text-xs text-stone-400 mt-3">Email buttons open a small compose window → info@hyrax-example.com</p>
+      </div>
+    </section>
+
+    <!-- Meet the Consuls -->
+    <section class="max-w-5xl mx-auto px-6 py-16">
+      <div class="text-center mb-8">
+        <div class="uppercase text-amber-600 font-bold tracking-[3px] text-sm">Official Ambassadors</div>
+        <h2 class="text-4xl font-semibold tracking-tight mt-1">Meet the Consuls</h2>
+        <p class="text-stone-600 mt-2">Two remarkable animals elected by nature to deliver the world’s greetings.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Consul Hyrax Card -->
+        <div class="consul-card group bg-white border border-stone-200 rounded-3xl p-8">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-5xl">🪨</div>
+            <div>
+              <div class="font-semibold text-2xl tracking-tight">Consul Hyrax</div>
+              <div class="text-amber-600 text-sm font-medium">The Rock Ambassador • Africa</div>
+            </div>
+          </div>
+          <p class="text-stone-600 leading-relaxed">
+            Small but fearless, the rock hyrax is the closest living relative to the elephant. 
+            They live in tight-knit colonies on rocky cliffs and have an astonishing vocabulary of whistles and alarm calls.
+          </p>
+          <div class="my-5 bg-stone-50 rounded-2xl p-4 text-sm">
+            <span class="font-medium">Fun fact:</span> Despite their size, hyraxes have tiny tusks and sweat through their feet to stay cool on granite.
+          </div>
+          <button onclick="openEmailModal('Hello Consul Hyrax! I love your rocky home and impressive family tree 🪨')" 
+                  class="mt-2 w-full py-2.5 border border-amber-200 hover:bg-amber-50 hover:border-amber-300 text-amber-700 font-semibold rounded-2xl text-sm transition-all">
+            Greet Consul Hyrax
+          </button>
+        </div>
+
+        <!-- Consul Redfoot Card -->
+        <div class="consul-card group bg-white border border-stone-200 rounded-3xl p-8">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-5xl">🐢</div>
+            <div>
+              <div class="font-semibold text-2xl tracking-tight">Consul Redfoot</div>
+              <div class="text-emerald-700 text-sm font-medium">The Colorful Greeter • South America</div>
+            </div>
+          </div>
+          <p class="text-stone-600 leading-relaxed">
+            With brilliant red-orange limbs and a curious personality, the red-footed tortoise brings joy to the rainforests of South America. 
+            Gentle, long-lived, and surprisingly good at recognizing their favorite humans.
+          </p>
+          <div class="my-5 bg-stone-50 rounded-2xl p-4 text-sm">
+            <span class="font-medium">Fun fact:</span> Red-foots can live 50+ years and will follow a mango from across the yard using their excellent sense of smell.
+          </div>
+          <button onclick="openEmailModal('Hello Consul Redfoot! Your bright legs always make me smile 🐢')" 
+                  class="mt-2 w-full py-2.5 border border-amber-200 hover:bg-amber-50 hover:border-amber-300 text-amber-700 font-semibold rounded-2xl text-sm transition-all">
+            Greet Consul Redfoot
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hello World code examples -->
+    <section class="border-y border-stone-200 bg-white py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-8">
+          <div class="font-mono text-xs tracking-[2px] text-stone-400">THE UNIVERSAL GREETING</div>
+          <h3 class="font-semibold text-2xl tracking-tight mt-1">Hello World, in every language</h3>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <div class="bg-stone-900 text-emerald-400 font-mono text-sm rounded-2xl p-5">
+            <div class="text-stone-500 text-xs mb-1">JAVASCRIPT</div>
+            console.log("Hello, World!")
+          </div>
+          <div class="bg-stone-900 text-emerald-400 font-mono text-sm rounded-2xl p-5">
+            <div class="text-stone-500 text-xs mb-1">PYTHON</div>
+            print("Hello, World!")
+          </div>
+          <div class="bg-stone-900 text-emerald-400 font-mono text-sm rounded-2xl p-5">
+            <div class="text-stone-500 text-xs mb-1">RUST</div>
+            println!("Hello, World!");
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 text-center">
+      <p class="text-stone-600">Want the full story of our ambassadors?</p>
+      <div class="mt-4">
+        <button onclick="showPage('about')" 
+                class="px-8 py-3 bg-stone-900 hover:bg-black text-white font-semibold rounded-2xl mr-3">Read the About page</button>
+        <button onclick="openEmailModal()" 
+                class="px-6 py-3 border border-stone-300 font-semibold rounded-2xl">Send a Hello</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== ABOUT PAGE ==================== -->
+  <div id="page-about" class="section">
+    <div class="border-b border-stone-200 bg-white py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="uppercase tracking-[3px] text-sm font-bold text-amber-600">Our Ambassadors</div>
+        <h1 class="text-5xl font-semibold tracking-tighter mt-2">About Hyrax &amp; the Red-Footed Tortoise</h1>
+        <p class="mt-3 max-w-xl text-lg text-stone-600">Two very different creatures. One big shared mission: reminding the world to say hello.</p>
+      </div>
+    </div>
+
+    <!-- Hyrax -->
+    <div class="max-w-5xl mx-auto px-6 py-12">
+      <div class="grid lg:grid-cols-12 gap-x-12 gap-y-8">
+        <div class="lg:col-span-5">
+          <div class="lg:sticky lg:top-8">
+            <div class="w-16 h-16 bg-amber-100 rounded-3xl flex items-center justify-center text-6xl mb-3">🪨</div>
+            <h2 class="text-4xl font-semibold tracking-tight">Rock Hyrax</h2>
+            <p class="text-amber-700 font-semibold">Procavia capensis • The “Rock Badger”</p>
+            <button onclick="openEmailModal('Hello from a fellow hyrax admirer! Your connection to elephants is wild.')" 
+                    class="mt-5 px-6 py-2.5 bg-amber-600 text-white rounded-2xl font-semibold text-sm">Send Hello to Consul Hyrax</button>
+          </div>
+        </div>
+        <div class="lg:col-span-7 text-stone-600 space-y-6 text-[15px] leading-relaxed">
+          <p class="text-lg text-stone-700 font-medium">At first glance a chunky rabbit-sized mammal that suns itself on boulders. In reality, the rock hyrax is one of evolution’s most surprising plot twists.</p>
+          
+          <div>
+            <h4 class="font-semibold text-stone-800 mb-1">Closest living relative of the elephant</h4>
+            <p>Genetic studies show hyraxes share a common ancestor with elephants and manatees. They even have tiny tusks and a multi-chambered stomach like their giant cousins.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-stone-800 mb-1">Life on the rocks</h4>
+            <p>They live in colonies of 10–60 on rocky outcrops across Africa and the Middle East. Their feet have special sweat glands that keep them from slipping on smooth granite.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-stone-800 mb-1">The language of the cliffs</h4>
+            <p>Hyraxes are incredibly vocal. Different calls warn of eagles, leopards, or snakes. One “song” can last several minutes and sounds more like a bird than a mammal.</p>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 p-5 rounded-2xl text-sm">
+            <strong class="text-amber-700">Why it matters:</strong> Hyraxes are ecosystem engineers. Their latrines fertilize thin soil on rocks, helping rare plants survive.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-px bg-gradient-to-r from-transparent via-stone-200 to-transparent max-w-5xl mx-auto"></div>
+
+    <!-- Redfoot -->
+    <div class="max-w-5xl mx-auto px-6 py-12">
+      <div class="grid lg:grid-cols-12 gap-x-12 gap-y-8">
+        <div class="lg:col-span-5">
+          <div class="lg:sticky lg:top-8">
+            <div class="w-16 h-16 bg-emerald-100 rounded-3xl flex items-center justify-center text-6xl mb-3">🐢</div>
+            <h2 class="text-4xl font-semibold tracking-tight">Red-Footed Tortoise</h2>
+            <p class="text-emerald-700 font-semibold">Chelonoidis carbonarius • The Painted Walker</p>
+            <button onclick="openEmailModal('Hello Consul Redfoot! Your colors and calm spirit are an inspiration.')" 
+                    class="mt-5 px-6 py-2.5 border-2 border-emerald-700 text-emerald-700 hover:bg-emerald-50 rounded-2xl font-semibold text-sm">Send Hello to Consul Redfoot</button>
+          </div>
+        </div>
+        <div class="lg:col-span-7 text-stone-600 space-y-6 text-[15px] leading-relaxed">
+          <p class="text-lg text-stone-700 font-medium">Bright legs the color of sunset, a curious face, and a shell that tells the story of decades of slow adventure. The red-footed tortoise is one of the most charismatic reptiles in the Americas.</p>
+          
+          <div>
+            <h4 class="font-semibold text-stone-800 mb-1">Vivid and varied</h4>
+            <p>Their legs, head, and tail are splashed with red, orange, and yellow. No two tortoises have exactly the same pattern — each one is a walking work of art.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-stone-800 mb-1">Slow wisdom</h4>
+            <p>They can live 40–60 years in the wild (even longer in human care). They are mostly herbivorous and love fallen fruit and flowers.</p>
+          </div>
+          <div>
+            <h4 class="font-semibold text-stone-800 mb-1">Gentle neighbors</h4>
+            <p>In many communities they are welcomed as “the tortoise that never bites.” They have excellent memory for routes to fruiting trees.</p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 p-5 rounded-2xl text-sm">
+            <strong class="text-emerald-700">Conservation note:</strong> Habitat loss and the pet trade have reduced populations. Captive-breeding programs are helping future generations meet them.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-stone-200 bg-white py-10 text-center">
+      <p class="text-xl text-stone-700">Ready to add your voice?</p>
+      <div class="mt-5">
+        <button onclick="showPage('sign')" class="px-8 py-3 bg-stone-900 text-white rounded-2xl font-semibold mr-3">Sign the Guestbook</button>
+        <button onclick="openEmailModal()" class="px-7 py-3 bg-amber-600 text-white rounded-2xl font-semibold">Send an Email Hello</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SIGN / GUESTBOOK PAGE ==================== -->
+  <div id="page-sign" class="section">
+    <div class="border-b border-stone-200 bg-white py-12">
+      <div class="max-w-3xl mx-auto px-6 text-center">
+        <div class="text-xs font-bold tracking-widest text-amber-600">THE GUESTBOOK</div>
+        <h1 class="text-5xl font-semibold tracking-tighter mt-2">Sign the Book</h1>
+        <p class="text-lg text-stone-600 mt-2">Leave a hello for future visitors. Every message becomes part of the story.</p>
+        <div class="mt-4">
+          <button onclick="openEmailModal()" class="px-6 py-2.5 bg-amber-600 text-white font-semibold rounded-2xl text-sm">Or send a private hello via email</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-6 py-8">
+      <!-- Form -->
+      <form id="guestbook-form" onsubmit="submitComment(event)" class="bg-white border border-stone-200 rounded-3xl p-7">
+        <div class="grid grid-cols-1 gap-5">
+          <div>
+            <label class="block text-xs font-bold tracking-wider text-stone-500 mb-1">YOUR NAME</label>
+            <input id="comment-name" type="text" required placeholder="Alex Rivera" 
+                   class="w-full border border-stone-200 rounded-2xl px-4 py-3 text-lg focus:border-amber-500 outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold tracking-wider text-stone-500 mb-1">YOUR MESSAGE</label>
+            <textarea id="comment-message" rows="4" required placeholder="Hello World! I just met the consuls and they waved back..."
+                      class="w-full border border-stone-200 rounded-2xl px-4 py-3 focus:border-amber-500 outline-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-bold tracking-wider text-stone-500 mb-1">WHERE ARE YOU FROM? <span class="font-normal text-stone-400">(optional)</span></label>
+            <input id="comment-location" type="text" placeholder="Nairobi • Oregon • The Andes" 
+                   class="w-full border border-stone-200 rounded-2xl px-4 py-3 focus:border-amber-500 outline-none">
+          </div>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button type="submit" 
+                  class="flex-1 bg-amber-600 hover:bg-amber-700 transition text-white py-3.5 rounded-2xl font-semibold">Post My Greeting</button>
+          <button type="button" onclick="clearAllComments()" 
+                  class="px-6 border border-stone-200 rounded-2xl text-sm font-medium text-stone-600 hover:bg-stone-50">Clear All</button>
+        </div>
+        <p class="text-center text-[10px] text-stone-400 mt-3">Stored only in your browser (localStorage)</p>
+      </form>
+
+      <!-- Comments header -->
+      <div class="flex items-baseline justify-between mt-9 mb-3 px-1">
+        <div class="flex items-center gap-3">
+          <span class="font-bold tracking-widest text-sm text-stone-500">RECENT HELLOS</span>
+          <span id="comment-count" class="font-semibold text-3xl text-stone-800 stat">12</span>
+        </div>
+        <button onclick="showPage('home')" class="text-sm text-amber-700 hover:underline">← Back home</button>
+      </div>
+
+      <!-- Comments list -->
+      <div id="comments-list" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-stone-200 bg-white py-7 text-center text-sm text-stone-500">
+    Made with ❤️ for testing on Vercel • Hello from the Consuls 🪨🐢<br>
+    <span class="text-xs">info@hyrax-example.com • Theme: Hello World</span>
+  </footer>
+
+  <!-- EMAIL MODAL -->
+  <div id="email-modal" onclick="if (event.target.id === 'email-modal') closeEmailModal()" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[70] p-4">
+    <div onclick="event.stopImmediatePropagation()" 
+         class="email-modal w-full max-w-[380px] bg-white rounded-2xl overflow-hidden border border-stone-200 shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-4 py-3 bg-stone-50 border-b">
+        <div class="flex items-center gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+          <span class="font-semibold text-stone-700 text-sm">New Message</span>
+        </div>
+        <button onclick="closeEmailModal()" class="text-stone-400 hover:text-stone-600 px-2">✕</button>
+      </div>
+
+      <div id="email-modal-body">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind script config
+    function initTailwind() {
+      document.documentElement.style.setProperty('--accent', '#d97706');
+    }
+    
+    // Simple page router
+    let currentPage = 'home';
+    
+    function showPage(page) {
+      // Hide all
+      document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+      
+      // Show target
+      const target = document.getElementById('page-' + page);
+      if (target) target.classList.add('active');
+      
+      // Update nav active states
+      document.querySelectorAll('[id^="nav-"]').forEach(el => el.classList.remove('active'));
+      const navEl = document.getElementById('nav-' + page);
+      if (navEl) navEl.classList.add('active');
+      
+      currentPage = page;
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // ============== EMAIL MODAL ==============
+    let currentEmailBody = "";
+    
+    function openEmailModal(prefill = "") {
+      const modal = document.getElementById('email-modal');
+      const body = document.getElementById('email-modal-body');
+      
+      currentEmailBody = prefill;
+      
+      body.innerHTML = `
+        <div class="px-4 pt-4 pb-2 text-sm space-y-3">
+          <div class="flex gap-3 items-center">
+            <span class="w-12 text-stone-500 text-xs">To:</span>
+            <span class="font-mono text-emerald-700">info@hyrax-example.com</span>
+          </div>
+          <div class="flex gap-3 items-center">
+            <span class="w-12 text-stone-500 text-xs">Subject:</span>
+            <span class="font-semibold">Hello World</span>
+          </div>
+          
+          <div class="pt-1">
+            <div class="text-xs font-bold tracking-wider text-stone-500 mb-1 px-1">MESSAGE (OPTIONAL)</div>
+            <textarea id="email-body" class="w-full h-24 border border-stone-200 rounded-xl px-3 py-2 text-sm focus:border-amber-400 outline-none" placeholder="Write your hello here...">${currentEmailBody}</textarea>
+          </div>
+        </div>
+        
+        <div class="bg-stone-50 border-t px-4 py-3 flex gap-2 justify-end">
+          <button onclick="closeEmailModal()" class="px-4 py-2 text-sm text-stone-600 hover:bg-stone-100 rounded-xl">Cancel</button>
+          <button onclick="sendDemoEmail()" class="px-4 py-2 text-sm border border-stone-300 rounded-xl hover:bg-white">Quick Demo</button>
+          <button onclick="sendRealEmail()" class="px-5 py-2 text-sm bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl">Open in Mail ✉️</button>
+        </div>
+      `;
+      
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      
+      // Focus textarea after render
+      setTimeout(() => {
+        const ta = document.getElementById('email-body');
+        if (ta) ta.focus();
+      }, 120);
+    }
+    
+    function closeEmailModal() {
+      const modal = document.getElementById('email-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+    
+    function sendRealEmail() {
+      const textarea = document.getElementById('email-body');
+      const bodyText = textarea ? textarea.value.trim() : "";
+      
+      const subject = "Hello World";
+      const finalBody = bodyText || "Hello from the Hello World site! 🐢🪨";
+      
+      const mailto = `mailto:info@hyrax-example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(finalBody)}`;
+      
+      window.location.href = mailto;
+      closeEmailModal();
+    }
+    
+    function sendDemoEmail() {
+      const bodyContainer = document.getElementById('email-modal-body');
+      
+      bodyContainer.innerHTML = `
+        <div class="px-8 py-12 text-center">
+          <div class="text-6xl mb-3">✅</div>
+          <div class="font-semibold text-xl">Hello sent!</div>
+          <p class="text-stone-600 mt-1">Thank you — your greeting made our day.</p>
+        </div>
+      `;
+      
+      setTimeout(() => {
+        closeEmailModal();
+      }, 1450);
+    }
+    
+    // ============== GUESTBOOK ==============
+    const STORAGE_KEY = "hello-world-comments-html";
+    
+    const DEMO_SEEDS = [
+      {
+        id: "d1",
+        name: "Maya K.",
+        message: "Saw a family of hyraxes sunning on the cliffs near Table Mountain. They really do look like they’re waving hello!",
+        location: "Cape Town",
+        createdAt: new Date(Date.now() - 1000*60*60*9).toISOString()
+      },
+      {
+        id: "d2",
+        name: "Lucas & the Tortoise",
+        message: "My redfoot just turned 29 today. Still the same gentle soul who follows me around the garden for mangoes.",
+        location: "São Paulo",
+        createdAt: new Date(Date.now() - 1000*60*60*27).toISOString()
+      },
+      {
+        id: "d3",
+        name: "Theo",
+        message: "Hello World from the rocks of Jordan! The hyrax calls at dawn are better than any alarm clock.",
+        location: "Petra",
+        createdAt: new Date(Date.now() - 1000*60*60*51).toISOString()
+      },
+      {
+        id: "d4",
+        name: "Aisha R.",
+        message: "First time seeing a red-footed tortoise in the wild. It stopped, looked at me, then kept eating flowers like I wasn’t even there. Pure peace.",
+        location: "Trinidad",
+        createdAt: new Date(Date.now() - 1000*60*60*73).toISOString()
+      }
+    ];
+    
+    function getComments() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    
+    function saveComments(comments) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+    }
+    
+    function seedIfEmpty() {
+      let comments = getComments();
+      if (comments.length === 0) {
+        comments = [...DEMO_SEEDS];
+        saveComments(comments);
+      }
+      return comments;
+    }
+    
+    function renderComments() {
+      const container = document.getElementById('comments-list');
+      const countEl = document.getElementById('comment-count');
+      let comments = getComments();
+      
+      if (comments.length === 0) {
+        container.innerHTML = `<div class="border border-dashed border-stone-300 rounded-3xl py-9 text-center text-stone-500">No greetings yet. Be the first to sign!</div>`;
+        countEl.textContent = "0";
+        return;
+      }
+      
+      countEl.textContent = comments.length;
+      
+      container.innerHTML = comments.map(c => {
+        const date = new Date(c.createdAt);
+        const dateStr = date.toLocaleDateString(undefined, {month:'short', day:'numeric', hour:'numeric', minute:'2-digit'});
+        
+        return `
+          <div class="comment-card bg-white border border-stone-200 rounded-3xl p-5 group">
+            <div class="flex justify-between">
+              <div>
+                <span class="font-semibold text-lg">${escapeHtml(c.name)}</span>
+                ${c.location ? `<span class="ml-2 text-xs px-2 py-px bg-stone-100 text-stone-500 rounded-full">${escapeHtml(c.location)}</span>` : ''}
+                <div class="text-xs text-stone-400">${dateStr}</div>
+              </div>
+              <button onclick="deleteComment('${c.id}')" 
+                      class="text-stone-300 hover:text-red-500 transition px-1 opacity-0 group-hover:opacity-100">✕</button>
+            </div>
+            <p class="mt-3 text-stone-700 whitespace-pre-line text-[15px]">${escapeHtml(c.message)}</p>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+    
+    function submitComment(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('comment-name').value.trim();
+      const message = document.getElementById('comment-message').value.trim();
+      const location = document.getElementById('comment-location').value.trim();
+      
+      if (!name || !message) return;
+      
+      const comments = getComments();
+      
+      const newComment = {
+        id: 'c' + Date.now(),
+        name,
+        message,
+        location: location || undefined,
+        createdAt: new Date().toISOString()
+      };
+      
+      comments.unshift(newComment);
+      saveComments(comments);
+      
+      // Reset form
+      document.getElementById('guestbook-form').reset();
+      
+      // Re-render
+      renderComments();
+      
+      // Flash the newest card
+      setTimeout(() => {
+        const firstCard = document.querySelector('#comments-list .comment-card');
+        if (firstCard) {
+          firstCard.style.transition = 'all .2s';
+          firstCard.style.boxShadow = '0 0 0 3px #fcd34d33';
+          setTimeout(() => {
+            if (firstCard) firstCard.style.boxShadow = '';
+          }, 1400);
+        }
+      }, 80);
+    }
+    
+    function deleteComment(id) {
+      if (!confirm("Remove this greeting?")) return;
+      
+      let comments = getComments();
+      comments = comments.filter(c => c.id !== id);
+      saveComments(comments);
+      renderComments();
+    }
+    
+    function clearAllComments() {
+      if (!confirm("Clear every greeting? This cannot be undone.")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      renderComments();
+    }
+    
+    // Boot everything
+    function init() {
+      initTailwind();
+      
+      // Seed guestbook if needed
+      seedIfEmpty();
+      
+      // Show home by default
+      document.getElementById('page-home').classList.add('active');
+      const navHome = document.getElementById('nav-home');
+      if (navHome) navHome.classList.add('active');
+      
+      // Render comments (even if on another page later)
+      renderComments();
+      
+      // Bonus: allow pressing "/" to jump to sign page (fun)
+      document.addEventListener('keydown', function(e) {
+        if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+          e.preventDefault();
+          showPage('sign');
+          setTimeout(() => {
+            const nameField = document.getElementById('comment-name');
+            if (nameField) nameField.focus();
+          }, 350);
+        }
+      });
+      
+      // Easter egg: console message
+      console.log('%c[Hello World] Single-file site ready. Open the email modal or sign the guestbook!', 'color:#854d0e');
+    }
+    
+    // Auto init
+    window.onload = init;
+  </script>
+</body>
+</html>
